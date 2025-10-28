@@ -40,7 +40,7 @@ class Program
         if (letterGrade != "F")
         {
             int lastDigit = (int)grade % 10;
-            if (lastDigit >= 7)
+            if (lastDigit >= 7 || grade >= 100)
                 sign = "+";
             else if (lastDigit < 3)
                 sign = "-";
