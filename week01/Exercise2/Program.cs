@@ -9,7 +9,7 @@ class Program
         string gradePercentage = Console.ReadLine();
         
         // Cast as float 
-        int grade = int.Parse(gradePercentage);
+        float grade = float.Parse(gradePercentage);
 
         string letterGrade = "";
         string sign = "";
@@ -39,17 +39,12 @@ class Program
         // Compute Sign
         if (letterGrade != "F")
         {
-            int lastDigit = grade % 10;
+            int lastDigit = (int)grade % 10;
             if (lastDigit >= 7)
-            {
                 sign = "+";
-            }
             else if (lastDigit < 3)
-            {
                 sign = "-";
-            }
         }
-
 
         // Output Letter Grade
         Console.WriteLine($"Your letter grade is: {letterGrade}{sign}");
