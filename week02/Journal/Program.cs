@@ -17,17 +17,26 @@ class Program
     // Program directory for file operations (source directory)
     public static string ProgramDirectory = FindSourceDirectory();
     
+    // Default journal filename
+    public static string DefaultJournalFile = "Journals.csv";
+    
+    // Program filename for directory detection
+    public static string ProgramFileName = "Program.cs";
+    
+    // Method to find source directory - Because working directory may differ when run from IDE
     private static string FindSourceDirectory()
     {
         // Start from executable location and work up to find source directory
         string currentDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-        
+
         // Navigate up directories until we find Program.cs
-        while (currentDir != null && !System.IO.File.Exists(System.IO.Path.Combine(currentDir, "Program.cs")))
+        while (currentDir != null && !System.IO.File.Exists(System.IO.Path.Combine(currentDir, ProgramFileName)))
         {
+            // Move up one directory
             currentDir = System.IO.Directory.GetParent(currentDir)?.FullName;
         }
         
+        // If found, return that directory; otherwise, return current working directory
         return currentDir ?? System.IO.Directory.GetCurrentDirectory();
     }
     
@@ -38,9 +47,10 @@ class Program
         Journal theJournal = new Journal();
 
         // Auto-load existing journal if file exists (silent)
-        string journalPath = System.IO.Path.Combine(ProgramDirectory, "Journals.csv");
+        string journalPath = System.IO.Path.Combine(ProgramDirectory, DefaultJournalFile);
         if (System.IO.File.Exists(journalPath))
         {
+            // Load existing entries without message
             theJournal.LoadFromFile(journalPath, true);
         }
 
@@ -67,26 +77,34 @@ class Program
 
             // Check for text commands, shortcuts, or parse as integer
             string response = userResponse.ToLower();
+
+            // Quit
             if (response == "quit" || response == "q")
             {
                 userChoice = 5;
             }
+            // Write
             else if (response == "write" || response == "w")
             {
                 userChoice = 1;
             }
+            // List
             else if (response == "list" || response == "l")
             {
                 userChoice = 2;
             }
+            // Load
             else if (response == "load")
             {
                 userChoice = 3;
             }
+            // Save
             else if (response == "save" || response == "s")
             {
                 userChoice = 4;
             }
+
+            // Parse number input (if not already set by text commands)
             else
             {
                 userChoice = int.Parse(userResponse);
@@ -134,12 +152,14 @@ class Program
             else if (userChoice == 3)
             {
                 // Prompt for filename
-                Console.Write("Enter a filename (press Enter for Journals.csv): ");
+                Console.Write($"Enter a filename (press Enter for {DefaultJournalFile}): ");
 
                 // Read filename from user
                 string filename = Console.ReadLine();
                 if (string.IsNullOrEmpty(filename))
-                    filename = "Journals.csv";
+                    filename = DefaultJournalFile;
+                
+                // Combine with program directory
                 string fullPath = System.IO.Path.Combine(ProgramDirectory, filename);
 
                 // Load journal from file
@@ -149,12 +169,14 @@ class Program
             else if (userChoice == 4)
             {
                 // Prompt for filename
-                Console.Write("What is the filename? (press Enter for Journals.csv): ");
+                Console.Write($"What is the filename? (press Enter for {DefaultJournalFile}): ");
 
                 // Read filename from user
                 string filename = Console.ReadLine();
                 if (string.IsNullOrEmpty(filename))
-                    filename = "Journals.csv";
+                    filename = DefaultJournalFile;
+                
+                // Combine with program directory
                 string fullPath = System.IO.Path.Combine(ProgramDirectory, filename);
 
                 // Save journal to file
@@ -162,9 +184,9 @@ class Program
             }
         }
         
-        // Auto-save all entries to Journals.csv on quit
-        string defaultJournalPath = System.IO.Path.Combine(ProgramDirectory, "Journals.csv");
+        // Auto-save all entries to default journal file on quit
+        string defaultJournalPath = System.IO.Path.Combine(ProgramDirectory, DefaultJournalFile);
         theJournal.SaveToFile(defaultJournalPath);
-        Console.WriteLine("All entries saved to Journals.csv. Goodbye!");
+        Console.WriteLine($"All entries saved to {DefaultJournalFile}. Goodbye!");
     }
 }
