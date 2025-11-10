@@ -14,6 +14,9 @@ using System;
 
 class Program
 {
+    // Program directory for file operations
+    public static string ProgramDirectory = "/Users/acottam/Learning/Pathways/CSE210/cse210-hw/week02/Journal";
+    
     // Main method
     static void Main(string[] args)
     {
@@ -21,8 +24,13 @@ class Program
         Journal theJournal = new Journal();
 
         // Auto-load existing journal if file exists (silent)
-        string journalFile = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "Journals.csv");
-        theJournal.LoadFromFile(journalFile, true);
+        string journalPath = System.IO.Path.Combine(ProgramDirectory, "Journals.csv");
+        if (!System.IO.File.Exists(journalPath))
+        {
+            // Create empty Journals.csv if it doesn't exist
+            theJournal.SaveToFile(journalPath);
+        }
+        theJournal.LoadFromFile(journalPath, true);
 
         // Create Prompt Generator
         PromptGenerator promptGenerator = new PromptGenerator();
@@ -90,26 +98,36 @@ class Program
             else if (userChoice == 3)
             {
                 // Prompt for filename
-                Console.Write("Enter a filename (example: Journals.csv)? ");
+                Console.Write("Enter a filename (press Enter for Journals.csv): ");
 
                 // Read filename from user
                 string filename = Console.ReadLine();
+                if (string.IsNullOrEmpty(filename))
+                    filename = "Journals.csv";
+                string fullPath = System.IO.Path.Combine(ProgramDirectory, filename);
 
                 // Load journal from file
-                theJournal.LoadFromFile(filename);
+                theJournal.LoadFromFile(fullPath);
             }
             // 4. Save journal to file
             else if (userChoice == 4)
             {
                 // Prompt for filename
-                Console.Write("What is the filename? (use .csv for Excel format): ");
+                Console.Write("What is the filename? (press Enter for Journals.csv): ");
 
                 // Read filename from user
                 string filename = Console.ReadLine();
+                if (string.IsNullOrEmpty(filename))
+                    filename = "Journals.csv";
+                string fullPath = System.IO.Path.Combine(ProgramDirectory, filename);
 
                 // Save journal to file
-                theJournal.SaveToFile(filename);
+                theJournal.SaveToFile(fullPath);
             }
         }
+        
+        // Auto-save all entries to Journals.csv on quit
+        string defaultJournalPath = System.IO.Path.Combine(ProgramDirectory, "Journals.csv");
+        theJournal.SaveToFile(defaultJournalPath);
     }
 }

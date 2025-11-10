@@ -115,6 +115,9 @@ public class Journal
             return;
         }
 
+        // Clear existing entries (truncate)
+        _entries.Clear();
+
         // Read all lines from file
         string[] lines = File.ReadAllLines(file);
 
@@ -189,6 +192,10 @@ public class Journal
         }
         
         if (!silent)
+        {
             Console.WriteLine($"Loaded {_entries.Count} entries from {file}");
+            // Auto-save loaded entries to default file
+            SaveToFile("/Users/acottam/Learning/Pathways/CSE210/cse210-hw/week02/Journal/Journals.csv");
+        }
     }
 }
