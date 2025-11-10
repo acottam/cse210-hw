@@ -165,5 +165,6 @@ class Program
         // Auto-save all entries to Journals.csv on quit
         string defaultJournalPath = System.IO.Path.Combine(ProgramDirectory, "Journals.csv");
         theJournal.SaveToFile(defaultJournalPath);
+        Console.WriteLine("All entries saved to Journals.csv. Goodbye!");
     }
 }
