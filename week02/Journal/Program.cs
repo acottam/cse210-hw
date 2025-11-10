@@ -2,8 +2,8 @@
 *************************************************************
 ******* Showing Creativity and Exceeding Requirements *******
 *************************************************************
-This program exceeds core requirements by addressing common 
-    journaling problems:
+This program exceeds core requirements by addressing 
+    common journaling problems:
 1. Mood Tracking: Captures emotional state with each entry 
     to help users identify patterns
 2. Word Counter: Automatically counts words to encourage 
