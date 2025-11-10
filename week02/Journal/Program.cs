@@ -20,6 +20,9 @@ class Program
         // Create Journal
         Journal theJournal = new Journal();
         
+        // Auto-load existing journal if file exists (silent)
+        theJournal.LoadFromFile("Journals.csv", true);
+        
         // Create Prompt Generator
         PromptGenerator promptGenerator = new PromptGenerator();
 

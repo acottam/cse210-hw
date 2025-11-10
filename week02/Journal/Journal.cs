@@ -101,6 +101,20 @@ public class Journal
     // Load from File Method
     public void LoadFromFile(string file)
     {
+        LoadFromFile(file, false);
+    }
+    
+    // Load from File Method with silent option
+    public void LoadFromFile(string file, bool silent)
+    {
+        // Check if file exists
+        if (!File.Exists(file))
+        {
+            if (!silent)
+                Console.WriteLine($"File '{file}' not found.");
+            return;
+        }
+
         // Read all lines from file
         string[] lines = File.ReadAllLines(file);
 
@@ -111,21 +125,70 @@ public class Journal
             if (file.EndsWith(".csv") && line.StartsWith("Date,"))
                 continue; // Skip CSV header
 
-            // Split line into parts using delimiter
-            string[] parts = line.Split("~|~");
+            // Handle CSV format differently
+            if (file.EndsWith(".csv"))
+            {
+                // Parse CSV line with quoted fields
+                List<string> fields = new List<string>();
+                bool inQuotes = false;
+                string currentField = "";
+                
+                for (int i = 0; i < line.Length; i++)
+                {
+                    char c = line[i];
+                    
+                    if (c == '"')
+                    {
+                        inQuotes = !inQuotes;
+                    }
+                    else if (c == ',' && !inQuotes)
+                    {
+                        fields.Add(currentField);
+                        currentField = "";
+                    }
+                    else
+                    {
+                        currentField += c;
+                    }
+                }
+                fields.Add(currentField); // Add last field
+                
+                if (fields.Count >= 5)
+                {
+                    // Create new Entry and populate fields for CSV
+                    Entry entry = new Entry();
+                    entry._date = fields[0];
+                    entry._mood = fields[1];
+                    entry._wordCount = int.Parse(fields[2]);
+                    entry._promptText = fields[3];
+                    entry._entryText = fields[4];
+                    _entries.Add(entry);
+                }
+            }
+            else
+            {
+                // Split line into parts using delimiter for text files
+                string[] parts = line.Split("~|~");
+                
+                if (parts.Length >= 5)
+                {
+                    // Create new Entry and populate fields
+                    Entry entry = new Entry();
+                    
+                    // Assign values from parts array to entry fields
+                    entry._date = parts[0];
+                    entry._promptText = parts[1];
+                    entry._entryText = parts[2];
+                    entry._mood = parts[3];
+                    entry._wordCount = int.Parse(parts[4]);
 
-            // Create new Entry and populate fields
-            Entry entry = new Entry();
-            
-            // Assign values from parts array to entry fields
-            entry._date = parts[0];
-            entry._promptText = parts[1];
-            entry._entryText = parts[2];
-            entry._mood = parts.Length > 3 ? parts[3] : "Unknown";
-            entry._wordCount = parts.Length > 4 ? int.Parse(parts[4]) : 0;
-
-            // Add entry to entries list
-            _entries.Add(entry);
+                    // Add entry to entries list
+                    _entries.Add(entry);
+                }
+            }
         }
+        
+        if (!silent)
+            Console.WriteLine($"Loaded {_entries.Count} entries from {file}");
     }
 }
