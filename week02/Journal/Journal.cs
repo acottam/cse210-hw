@@ -101,6 +101,7 @@ public class Journal
     // Load from File Method
     public void LoadFromFile(string file)
     {
+        // Call LoadFromFile with silent = false
         LoadFromFile(file, false);
     }
     
@@ -110,8 +111,11 @@ public class Journal
         // Check if file exists
         if (!File.Exists(file))
         {
+            // File not found message
             if (!silent)
                 Console.WriteLine($"File '{file}' not found.");
+            
+            // Exit method
             return;
         }
 
@@ -133,29 +137,43 @@ public class Journal
             {
                 // Parse CSV line with quoted fields
                 List<string> fields = new List<string>();
+
+                // Simple CSV parser handling quoted fields
                 bool inQuotes = false;
+
+                // Current field being built
                 string currentField = "";
-                
+
+                // Iterate through each character in the line
                 for (int i = 0; i < line.Length; i++)
                 {
+                    // Current character
                     char c = line[i];
-                    
+
+                    // Handle quotes and commas
                     if (c == '"')
                     {
                         inQuotes = !inQuotes;
                     }
+
+                    // If comma and not in quotes, field ends
                     else if (c == ',' && !inQuotes)
                     {
                         fields.Add(currentField);
                         currentField = "";
                     }
+
+                    // Otherwise, add character to current field
                     else
                     {
                         currentField += c;
                     }
                 }
+
+                // Add last field
                 fields.Add(currentField); // Add last field
-                
+
+                // Ensure we have enough fields
                 if (fields.Count >= 5)
                 {
                     // Create new Entry and populate fields for CSV
@@ -165,19 +183,23 @@ public class Journal
                     entry._wordCount = int.Parse(fields[2]);
                     entry._promptText = fields[3];
                     entry._entryText = fields[4];
+
+                    // Add entry to entries list
                     _entries.Add(entry);
                 }
             }
+
+            // Standard text file format
             else
             {
                 // Split line into parts using delimiter for text files
                 string[] parts = line.Split("~|~");
-                
+
                 if (parts.Length >= 5)
                 {
                     // Create new Entry and populate fields
                     Entry entry = new Entry();
-                    
+
                     // Assign values from parts array to entry fields
                     entry._date = parts[0];
                     entry._promptText = parts[1];
@@ -191,7 +213,8 @@ public class Journal
             }
         }
         
+        // Confirm load to user
         if (!silent)
-            Console.WriteLine($"Loaded {_entries.Count} entries from {file}");
+            Console.WriteLine($"Loaded {_entries.Count} entries from {file}"); // Confirm load to user
     }
 }

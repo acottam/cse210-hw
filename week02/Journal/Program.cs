@@ -36,7 +36,7 @@ class Program
         string currentDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
         // Navigate up directories until we find Program.cs
-        while (currentDir != null && !System.IO.File.Exists(System.IO.Path.Combine(currentDir, ProgramFileName)))
+        while (currentDir != null && !System.IO.File.Exists(System.IO.Path.Combine(currentDir, "Program.cs")))
         {
             // Move up one directory
             currentDir = System.IO.Directory.GetParent(currentDir)?.FullName;
@@ -189,10 +189,14 @@ class Program
                 theJournal.SaveToFile(fullPath);
             }
         }
-        
+
         // Auto-save all entries to default journal file on quit
         string defaultJournalPath = System.IO.Path.Combine(ProgramDirectory, DefaultJournalFile);
+
+        // Save journal (auto-save)
         theJournal.SaveToFile(defaultJournalPath);
+        
+        // Goodbye Message
         Console.WriteLine($"All entries saved to {DefaultJournalFile}. Goodbye!");
     }
 }
