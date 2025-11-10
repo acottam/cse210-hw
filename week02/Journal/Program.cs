@@ -2,12 +2,18 @@
 *************************************************************
 ******* Showing Creativity and Exceeding Requirements *******
 *************************************************************
-This program exceeds core requirements by addressing common journaling problems:
-1. Mood Tracking: Captures emotional state with each entry to help users identify patterns
-2. Word Counter: Automatically counts words to encourage consistent writing habits
-3. Save to CSV Format: Saves to Excel-compatible format with proper quote/comma escaping for data analysis
-4. Empty Journal Handling: Provides helpful feedback when no entries exist
-5. Enhanced Display: Shows entry count and mood/word statistics for better user experience
+This program exceeds core requirements by addressing common 
+    journaling problems:
+1. Mood Tracking: Captures emotional state with each entry 
+    to help users identify patterns
+2. Word Counter: Automatically counts words to encourage 
+    consistent writing habits
+3. Save to CSV Format: Saves to Excel-compatible format 
+    with proper quote/comma escaping for data analysis
+4. Empty Journal Handling: Provides helpful feedback when 
+    no entries exist
+5. Enhanced Display: Shows entry count and mood/word 
+    statistics for better user experience
 *************************************************************
 */
 using System;
