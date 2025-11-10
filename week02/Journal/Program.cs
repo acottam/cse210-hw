@@ -14,8 +14,22 @@ using System;
 
 class Program
 {
-    // Program directory for file operations (current working directory)
-    public static string ProgramDirectory = System.IO.Directory.GetCurrentDirectory();
+    // Program directory for file operations (source directory)
+    public static string ProgramDirectory = FindSourceDirectory();
+    
+    private static string FindSourceDirectory()
+    {
+        // Start from executable location and work up to find source directory
+        string currentDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        
+        // Navigate up directories until we find Program.cs
+        while (currentDir != null && !System.IO.File.Exists(System.IO.Path.Combine(currentDir, "Program.cs")))
+        {
+            currentDir = System.IO.Directory.GetParent(currentDir)?.FullName;
+        }
+        
+        return currentDir ?? System.IO.Directory.GetCurrentDirectory();
+    }
     
     // Main method
     static void Main(string[] args)
@@ -41,18 +55,42 @@ class Program
         {
             // Menu Options
             Console.WriteLine("Please select one of the following choices:");
-            Console.WriteLine("1. Write a new entry");
-            Console.WriteLine("2. Display all entries");
-            Console.WriteLine("3. Load the journal from a file");
-            Console.WriteLine("4. Save the journal to a file");
-            Console.WriteLine("5. Quit");
+            Console.WriteLine("1. Write a new entry (or type 'write')");
+            Console.WriteLine("2. Display all entries (or type 'list')");
+            Console.WriteLine("3. Load the journal from a file (or type 'load')");
+            Console.WriteLine("4. Save the journal to a file (or type 'save')");
+            Console.WriteLine("5. Quit (or type 'quit')");
             Console.Write("What would you like to do? ");
 
             // Handle User Input
             string userResponse = Console.ReadLine();
 
-            // Parse Input into Integer
-            userChoice = int.Parse(userResponse);
+            // Check for text commands, shortcuts, or parse as integer
+            string response = userResponse.ToLower();
+            if (response == "quit" || response == "q")
+            {
+                userChoice = 5;
+            }
+            else if (response == "write" || response == "w")
+            {
+                userChoice = 1;
+            }
+            else if (response == "list" || response == "l")
+            {
+                userChoice = 2;
+            }
+            else if (response == "load")
+            {
+                userChoice = 3;
+            }
+            else if (response == "save" || response == "s")
+            {
+                userChoice = 4;
+            }
+            else
+            {
+                userChoice = int.Parse(userResponse);
+            }
 
             // 1. Write a new entry
             if (userChoice == 1)
