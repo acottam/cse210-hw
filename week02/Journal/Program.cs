@@ -14,8 +14,8 @@ using System;
 
 class Program
 {
-    // Program directory for file operations
-    public static string ProgramDirectory = "/Users/acottam/Learning/Pathways/CSE210/cse210-hw/week02/Journal";
+    // Program directory for file operations (dynamically set)
+    public static string ProgramDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
     
     // Main method
     static void Main(string[] args)

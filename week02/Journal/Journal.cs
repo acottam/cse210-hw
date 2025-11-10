@@ -192,10 +192,6 @@ public class Journal
         }
         
         if (!silent)
-        {
             Console.WriteLine($"Loaded {_entries.Count} entries from {file}");
-            // Auto-save loaded entries to default file
-            SaveToFile("/Users/acottam/Learning/Pathways/CSE210/cse210-hw/week02/Journal/Journals.csv");
-        }
     }
 }
