@@ -51,30 +51,30 @@ class Program
                 Entry entry = new Entry();
 
                 // Entry Date
-                entry.date = DateTime.Now.ToShortDateString();
+                entry._date = DateTime.Now.ToShortDateString();
                 
                 // Entry Prompt (randomly generated from list of prompts)
-                entry.promptText = promptGenerator.GetRandomPrompt();
+                entry._promptText = promptGenerator.GetRandomPrompt();
 
                 // Display Prompt
-                Console.WriteLine(entry.promptText);
+                Console.WriteLine(entry._promptText);
                 Console.Write("> ");
                 
                 // Get User input for entry
-                entry.entryText = Console.ReadLine();
+                entry._entryText = Console.ReadLine();
 
                 // Get User input for mood
                 Console.Write("How are you feeling today? (happy/sad/excited/calm/stressed): ");
-                entry.mood = Console.ReadLine();
+                entry._mood = Console.ReadLine();
 
                 // Calculate Word Count
-                entry.wordCount = entry.entryText.Split(' ', StringSplitOptions.RemoveEmptyEntries).Length;
+                entry._wordCount = entry._entryText.Split(' ', StringSplitOptions.RemoveEmptyEntries).Length;
 
                 // Add Entry to Journal
                 theJournal.AddEntry(entry);
 
                 // Confirm Entry Saved
-                Console.WriteLine($"Entry saved! Word count: {entry.wordCount}");
+                Console.WriteLine($"Entry saved! Word count: {entry._wordCount}");
             }
             // 2. Display all entries
             else if (userChoice == 2)
@@ -86,7 +86,7 @@ class Program
             else if (userChoice == 3)
             {
                 // Prompt for filename
-                Console.Write("Enter a filename (example: journal.csv)? ");
+                Console.Write("Enter a filename (example: Journals.csv)? ");
 
                 // Read filename from user
                 string filename = Console.ReadLine();

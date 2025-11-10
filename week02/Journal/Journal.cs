@@ -6,27 +6,27 @@ using System.IO;
 public class Journal
 {
     // Vars
-    public List<Entry> entries;
+    public List<Entry> _entries;
 
     // Constructor
     public Journal()
     {
         // Initialize entries list
-        entries = new List<Entry>();
+        _entries = new List<Entry>();
     }
 
     // Add Entry Method
     public void AddEntry(Entry newEntry)
     {
         // Add entry to entries list
-        entries.Add(newEntry);
+        _entries.Add(newEntry);
     }
 
     // Display All Entries Method
     public void DisplayAll()
     {
         // No entries found
-        if (entries.Count == 0)
+        if (_entries.Count == 0)
         {
             // Message to user about no entries
             Console.WriteLine("No journal entries found.");
@@ -36,10 +36,10 @@ public class Journal
         }
 
         // Display all entries
-        Console.WriteLine($"Displaying {entries.Count} journal entries:\n");
+        Console.WriteLine($"Displaying {_entries.Count} journal entries:\n");
 
         // Iterate through entries and display each
-        foreach (Entry entry in entries)
+        foreach (Entry entry in _entries)
         {
             // Display each entry
             entry.Display();
@@ -65,10 +65,10 @@ public class Journal
             using (StreamWriter outputFile = new StreamWriter(file))
             {
                 // Iterate through entries and write each to file
-                foreach (Entry entry in entries)
+                foreach (Entry entry in _entries)
                 {
                     // Write entry data to file with delimiter
-                    outputFile.WriteLine($"{entry.date}~|~{entry.promptText}~|~{entry.entryText}~|~{entry.mood}~|~{entry.wordCount}");
+                    outputFile.WriteLine($"{entry._date}~|~{entry._promptText}~|~{entry._entryText}~|~{entry._mood}~|~{entry._wordCount}");
                 }
             }
         }
@@ -84,16 +84,16 @@ public class Journal
             outputFile.WriteLine("Date,Mood,Word Count,Prompt,Entry");
 
             // Iterate through entries and write each to CSV file
-            foreach (Entry entry in entries)
+            foreach (Entry entry in _entries)
             {
                 // Escape commas in prompt and entry text
-                string escapedPrompt = "\"" + entry.promptText.Replace("\"", "\"\"") + "\"";
+                string escapedPrompt = "\"" + entry._promptText.Replace("\"", "\"\"") + "\"";
 
                 // Escape commas in entry text
-                string escapedEntry = "\"" + entry.entryText.Replace("\"", "\"\"") + "\"";
+                string escapedEntry = "\"" + entry._entryText.Replace("\"", "\"\"") + "\"";
 
                 // Write entry data to CSV file
-                outputFile.WriteLine($"{entry.date},{entry.mood},{entry.wordCount},{escapedPrompt},{escapedEntry}");
+                outputFile.WriteLine($"{entry._date},{entry._mood},{entry._wordCount},{escapedPrompt},{escapedEntry}");
             }
         }
     }
@@ -118,14 +118,14 @@ public class Journal
             Entry entry = new Entry();
             
             // Assign values from parts array to entry fields
-            entry.date = parts[0];
-            entry.promptText = parts[1];
-            entry.entryText = parts[2];
-            entry.mood = parts.Length > 3 ? parts[3] : "Unknown";
-            entry.wordCount = parts.Length > 4 ? int.Parse(parts[4]) : 0;
+            entry._date = parts[0];
+            entry._promptText = parts[1];
+            entry._entryText = parts[2];
+            entry._mood = parts.Length > 3 ? parts[3] : "Unknown";
+            entry._wordCount = parts.Length > 4 ? int.Parse(parts[4]) : 0;
 
             // Add entry to entries list
-            entries.Add(entry);
+            _entries.Add(entry);
         }
     }
 }

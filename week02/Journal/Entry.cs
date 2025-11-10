@@ -4,22 +4,22 @@ using System;
 public class Entry
 {
     // Vars
-    public string date;
-    public string promptText;
-    public string entryText;
-    public string mood;
-    public int wordCount;
+    public string _date;
+    public string _promptText;
+    public string _entryText;
+    public string _mood;
+    public int _wordCount;
 
     // Display Method
     public void Display()
     {
         // Display entry details
-        Console.WriteLine($"Date: {date} - Mood: {mood} - Words: {wordCount}");
+        Console.WriteLine($"Date: {_date} - Mood: {_mood} - Words: {_wordCount}");
 
         // Display prompt
-        Console.WriteLine($"Prompt: {promptText}");
+        Console.WriteLine($"Prompt: {_promptText}");
         
         // Display entry text
-        Console.WriteLine(entryText);
+        Console.WriteLine(_entryText);
     }
 }

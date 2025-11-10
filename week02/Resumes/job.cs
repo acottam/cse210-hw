@@ -7,11 +7,11 @@ public class Job
     private string _endYear;
 
     // Constructor
-    public Job(string company, string jobTitle, string startDate, string endYear)
+    public Job(string company, string jobTitle, string startYear, string endYear)
     {
         _company = company;
         _jobTitle = jobTitle;
-        _startYear = startDate;
+        _startYear = startYear;
         _endYear = endYear;
     }
 
