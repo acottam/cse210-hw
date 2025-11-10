@@ -19,10 +19,11 @@ class Program
     {
         // Create Journal
         Journal theJournal = new Journal();
-        
+
         // Auto-load existing journal if file exists (silent)
-        theJournal.LoadFromFile("Journals.csv", true);
-        
+        string journalFile = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "Journals.csv");
+        theJournal.LoadFromFile(journalFile, true);
+
         // Create Prompt Generator
         PromptGenerator promptGenerator = new PromptGenerator();
 
@@ -43,7 +44,7 @@ class Program
 
             // Handle User Input
             string userResponse = Console.ReadLine();
-            
+
             // Parse Input into Integer
             userChoice = int.Parse(userResponse);
 
@@ -55,14 +56,14 @@ class Program
 
                 // Entry Date
                 entry._date = DateTime.Now.ToShortDateString();
-                
+
                 // Entry Prompt (randomly generated from list of prompts)
                 entry._promptText = promptGenerator.GetRandomPrompt();
 
                 // Display Prompt
                 Console.WriteLine(entry._promptText);
                 Console.Write("> ");
-                
+
                 // Get User input for entry
                 entry._entryText = Console.ReadLine();
 
@@ -93,7 +94,7 @@ class Program
 
                 // Read filename from user
                 string filename = Console.ReadLine();
-                
+
                 // Load journal from file
                 theJournal.LoadFromFile(filename);
             }
@@ -105,7 +106,7 @@ class Program
 
                 // Read filename from user
                 string filename = Console.ReadLine();
-                
+
                 // Save journal to file
                 theJournal.SaveToFile(filename);
             }
