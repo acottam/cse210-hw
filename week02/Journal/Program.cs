@@ -14,18 +14,8 @@ using System;
 
 class Program
 {
-    // Program directory for file operations (dynamically set to source directory)
-    public static string ProgramDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-    
-    static Program()
-    {
-        // Try to find the source directory by looking for Program.cs
-        string currentDir = System.IO.Directory.GetCurrentDirectory();
-        if (System.IO.File.Exists(System.IO.Path.Combine(currentDir, "Program.cs")))
-        {
-            ProgramDirectory = currentDir;
-        }
-    }
+    // Program directory for file operations (current working directory)
+    public static string ProgramDirectory = System.IO.Directory.GetCurrentDirectory();
     
     // Main method
     static void Main(string[] args)
@@ -35,12 +25,10 @@ class Program
 
         // Auto-load existing journal if file exists (silent)
         string journalPath = System.IO.Path.Combine(ProgramDirectory, "Journals.csv");
-        if (!System.IO.File.Exists(journalPath))
+        if (System.IO.File.Exists(journalPath))
         {
-            // Create empty Journals.csv if it doesn't exist
-            theJournal.SaveToFile(journalPath);
+            theJournal.LoadFromFile(journalPath, true);
         }
-        theJournal.LoadFromFile(journalPath, true);
 
         // Create Prompt Generator
         PromptGenerator promptGenerator = new PromptGenerator();
