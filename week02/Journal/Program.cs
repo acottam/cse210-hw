@@ -14,8 +14,18 @@ using System;
 
 class Program
 {
-    // Program directory for file operations (dynamically set)
-    public static string ProgramDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
+    // Program directory for file operations (dynamically set to source directory)
+    public static string ProgramDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+    
+    static Program()
+    {
+        // Try to find the source directory by looking for Program.cs
+        string currentDir = System.IO.Directory.GetCurrentDirectory();
+        if (System.IO.File.Exists(System.IO.Path.Combine(currentDir, "Program.cs")))
+        {
+            ProgramDirectory = currentDir;
+        }
+    }
     
     // Main method
     static void Main(string[] args)
