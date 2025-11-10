@@ -2,13 +2,16 @@ using System;
 
 public class Entry
 {
-    public string _date;
-    public string _promptText;
-    public string _entryText;
+    public string date;
+    public string promptText;
+    public string entryText;
+    public string mood;
+    public int wordCount;
 
     public void Display()
     {
-        Console.WriteLine($"Date: {_date} - Prompt: {_promptText}");
-        Console.WriteLine(_entryText);
+        Console.WriteLine($"Date: {date} - Mood: {mood} - Words: {wordCount}");
+        Console.WriteLine($"Prompt: {promptText}");
+        Console.WriteLine(entryText);
     }
 }

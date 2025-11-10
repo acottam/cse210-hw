@@ -1,3 +1,17 @@
+/*
+CREATIVITY AND EXCEEDING REQUIREMENTS:
+This program exceeds core requirements by addressing common journaling problems:
+
+1. MOOD TRACKING: Captures emotional state with each entry to help users identify patterns
+2. WORD COUNT: Automatically counts words to encourage consistent writing habits
+3. CSV EXPORT: Saves to Excel-compatible format with proper quote/comma escaping for data analysis
+4. EMPTY JOURNAL HANDLING: Provides helpful feedback when no entries exist
+5. ENHANCED DISPLAY: Shows entry count and mood/word statistics for better user experience
+
+These features address real barriers to consistent journaling by making entries more meaningful
+and providing data insights that motivate continued use.
+*/
+
 using System;
 
 class Program
@@ -25,14 +39,20 @@ class Program
             if (userChoice == 1)
             {
                 Entry entry = new Entry();
-                entry._date = DateTime.Now.ToShortDateString();
-                entry._promptText = promptGenerator.GetRandomPrompt();
+                entry.date = DateTime.Now.ToShortDateString();
+                entry.promptText = promptGenerator.GetRandomPrompt();
                 
-                Console.WriteLine(entry._promptText);
+                Console.WriteLine(entry.promptText);
                 Console.Write("> ");
-                entry._entryText = Console.ReadLine();
+                entry.entryText = Console.ReadLine();
+                
+                Console.Write("How are you feeling today? (happy/sad/excited/calm/stressed): ");
+                entry.mood = Console.ReadLine();
+                
+                entry.wordCount = entry.entryText.Split(' ', StringSplitOptions.RemoveEmptyEntries).Length;
                 
                 theJournal.AddEntry(entry);
+                Console.WriteLine($"Entry saved! Word count: {entry.wordCount}");
             }
             else if (userChoice == 2)
             {
@@ -46,7 +66,7 @@ class Program
             }
             else if (userChoice == 4)
             {
-                Console.Write("What is the filename? ");
+                Console.Write("What is the filename? (use .csv for Excel format): ");
                 string filename = Console.ReadLine();
                 theJournal.SaveToFile(filename);
             }
