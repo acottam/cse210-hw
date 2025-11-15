@@ -36,19 +36,28 @@ public class Word
     // GetDisplayText - Returns text (including "_" where hidden)
     public string GetDisplayText()
     {
+        // If Hidden
         if (_isHidden)
         {
             string result = "";
+
+            // Iterate through and replace chars with "_"
             foreach (char c in _text)
             {
+                // If it's a character
                 if (char.IsLetter(c))
                     result += "_";
+                // It's puctuation - Preserve
                 else
-                    result += c; // Preserve punctuation
+                    result += c;
             }
+            
+            // Return result string
             return result;
         }
+        // Not Hidden
         else
+            // return entire string
             return _text;
     }
 }

@@ -19,7 +19,7 @@ public class Reference
         _endVerse = verse;
     }
 
-    //  
+    // Constructor 
     public Reference(string book, int chapter, int startVerse, int endVerse)
     {
         // Initialize members
@@ -32,9 +32,12 @@ public class Reference
     // GetDisplayText method - 
     public string GetDisplayText()
     {
+        // If verse is the end verse
         if (_verse == _endVerse)
+            // Single Verse
             return $"{_book} {_chapter}:{_verse}";
         else
+            // Multiple Verses 
             return $"{_book} {_chapter}:{_verse}-{_endVerse}";
     }
 }

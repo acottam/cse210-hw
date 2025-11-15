@@ -21,6 +21,9 @@ using System.IO;
 
 class Program
 {
+    // Number of words to hide
+    private static int _wordsToHide = 3;
+
     // Main method
     static void Main(string[] args)
     {
@@ -53,13 +56,13 @@ class Program
                 // Get user input
                 string input = Console.ReadLine();
 
-                // Check for quit command (allows 'quit' or 'q')
+                // Check for quit command (allows 'quit' or 'q' - uses "?" in case input is null)
                 if (input?.ToLower() == "quit" || input?.ToLower() == "q")
                     // Exit program
                     return;
 
-                // Hide 3 random words
-                scripture.HideRandomWords(3);
+                // Hide random words
+                scripture.HideRandomWords(_wordsToHide);
 
                 // Check if all words are hidden (handle completion) 
                 if (scripture.IsCompletelyHidden())
@@ -84,7 +87,7 @@ class Program
             // Get user response
             string response = Console.ReadLine();
 
-            // Check response to continue or quit (case insensitive for 'n', 'no', 'quit', 'q')
+            // Check response to continue or quit (case insensitive for 'n', 'no', 'quit', 'q' - Uses "?" in case input is null)
             if (response?.ToLower() == "n" || response?.ToLower() == "no" || response?.ToLower() == "quit" || response?.ToLower() == "q")
 
                 // Exit program
@@ -168,7 +171,7 @@ class Program
                 fields.Add(currentField);
                 currentField = "";
             }
-            //
+            // Use char
             else
             {
                 currentField += c;
