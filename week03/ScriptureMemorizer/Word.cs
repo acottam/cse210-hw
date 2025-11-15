@@ -1,46 +1,39 @@
 using System;
 
-/// <summary>
-/// Represents a single word that can be hidden or shown
-/// </summary>
+// Word class
 public class Word
 {
+    // Private members
     private string _text;
     private bool _isHidden;
 
+    // Constructor
     public Word(string text)
     {
+        // Initialize members
         _text = text;
         _isHidden = false;
     }
 
-    /// <summary>
-    /// Hides the word
-    /// </summary>
+    // Hide method - Hides the word
     public void Hide()
     {
         _isHidden = true;
     }
 
-    /// <summary>
-    /// Shows the word
-    /// </summary>
+    // Show Method - Shows the word
     public void Show()
     {
         _isHidden = false;
     }
 
-    /// <summary>
-    /// Returns whether the word is currently hidden
-    /// </summary>
+    // IsHidden - Returns whether the word is currently hidden
     public bool IsHidden()
     {
         return _isHidden;
     }
 
-    /// <summary>
-    /// Returns the display text - either the word or underscores with punctuation preserved
-    /// </summary>
+    // GetDisplayText - Returns text (including "_" where hidden)
     public string GetDisplayText()
     {
         if (_isHidden)
