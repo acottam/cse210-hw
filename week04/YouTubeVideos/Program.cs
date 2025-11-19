@@ -30,7 +30,7 @@ class Program
         video3.AddComment(new Comment("Jack", "Can you show how to tune the guitar?"));
         library.AddVideo(video3);
 
-        // Display all videos
+        // Display all videos with separators
         library.DisplayAllVideos();
     }
 }

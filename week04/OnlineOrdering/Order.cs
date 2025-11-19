@@ -57,4 +57,12 @@ public class Order
         // Returns formatted Label
         return $"Shipping Label:\n{_customer.GetName()}\n{_customer.GetAddress().GetDisplayText()}";
     }
+
+    // DisplayOrder Method - Outputs formatted order to screen
+    public void DisplayOrder()
+    {
+        Console.WriteLine(GetPackingLabel());
+        Console.WriteLine(GetShippingLabel());
+        Console.WriteLine($"Total Cost: ${CalculateTotalCost():F2}");
+    }
 }

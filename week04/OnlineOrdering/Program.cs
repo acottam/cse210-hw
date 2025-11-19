@@ -28,17 +28,19 @@ class Program
         order2.AddProduct(goggles);
         order2.AddProduct(new Product("Keyboard", 79.99, 1002));
 
+        // Empty Line
+        Console.WriteLine();
+
         // Display Order #1
         Console.WriteLine("ORDER 1:");
-        Console.WriteLine(order1.GetPackingLabel());
-        Console.WriteLine(order1.GetShippingLabel());
-        Console.WriteLine($"Total Cost: ${order1.CalculateTotalCost():F2}");
+        order1.DisplayOrder();
+        Console.WriteLine();
+        Console.WriteLine("----------------------------------------------");
         Console.WriteLine();
 
         // Display Order #2
         Console.WriteLine("ORDER 2:");
-        Console.WriteLine(order2.GetPackingLabel());
-        Console.WriteLine(order2.GetShippingLabel());
-        Console.WriteLine($"Total Cost: ${order2.CalculateTotalCost():F2}");
+        order2.DisplayOrder();
+        Console.WriteLine();
     }
 }
