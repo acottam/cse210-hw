@@ -5,19 +5,17 @@
 ### Current Classes (Complete)
 The current implementation includes all necessary classes for the requirements:
 
-1. **Product** - Base class for all products
-2. **OutdoorProduct** - Specialized product with safety warnings
-3. **SwimmingProduct** - Specialized product with safety instructions
-4. **Address** - Customer and shipping address management
-5. **Customer** - Customer information container
-6. **Order** - Order management and cost calculation
+1. **Product** - Class for all products
+2. **Address** - Customer and shipping address management
+3. **Customer** - Customer information container
+4. **Order** - Order management and cost calculation
 
 ### Missing Classes Assessment
 **No additional classes are needed** - the current design adequately covers all requirements with proper separation of concerns.
 
 ## Class Diagrams
 
-### Product Class Hierarchy
+### Product Class
 ```
 ┌─────────────────────────┐
 │       Product           │
@@ -30,28 +28,8 @@ The current implementation includes all necessary classes for the requirements:
 │   productId)            │
 │ + GetPrice(): double    │
 │ + GetPackingLabel():    │
-│   string (virtual)      │
+│   string                │
 └─────────────────────────┘
-           ▲
-           │
-    ┌──────┴──────┐
-    │             │
-┌───▼────────┐ ┌──▼─────────────┐
-│OutdoorProd │ │ SwimmingProduct│
-├────────────┤ ├────────────────┤
-│(inherits   │ │ (inherits all  │
-│all from    │ │ from Product)  │
-│Product)    │ ├────────────────┤
-├────────────┤ │+ SwimmingProd  │
-│+ OutdoorPr │ │  (name, price, │
-│  (name,    │ │  productId)    │
-│  price,    │ │+ GetPackingLab │
-│  productId)│ │  el(): string  │
-│+ GetPacking│ │  (override)    │
-│  Label():  │ └────────────────┘
-│  string    │
-│  (override)│
-└────────────┘
 ```
 
 ### Address Class
@@ -112,8 +90,7 @@ Order ──────► Customer ──────► Address
   │
   │ (contains list)
   ▼
-Product ◄──── OutdoorProduct
-        ◄──── SwimmingProduct
+Product
 ```
 
 ## Program Flow Chart
@@ -140,7 +117,6 @@ Add Products to Orders
 For Each Order:
   ├─ Generate Packing Label
   │  └─ Call GetPackingLabel() on each product
-  │     └─ Use polymorphism for special labels
   │
   ├─ Generate Shipping Label
   │  └─ Get customer name and address
@@ -168,28 +144,18 @@ END
    - `order.CalculateTotalCost()` → calls `product.GetPrice()` for each product
    - Uses `customer.GetAddress().IsInUSA()` for shipping cost
 
-### Polymorphism in Action:
-```
-Product.GetPackingLabel() (base)
-    ↓
-OutdoorProduct.GetPackingLabel() (override) → adds waiver warning
-SwimmingProduct.GetPackingLabel() (override) → adds safety instructions
-```
-
 ## Key Design Principles Applied
 
-1. **Inheritance**: Product hierarchy with specialized behavior
-2. **Polymorphism**: Virtual method overriding for different product labels
-3. **Encapsulation**: Private fields with controlled access through methods
-4. **Single Responsibility**: Each class has one clear purpose
-5. **Composition**: Order contains Customer, Customer contains Address
+1. **Encapsulation**: Private fields with controlled access through methods
+2. **Single Responsibility**: Each class has one clear purpose
+3. **Composition**: Order contains Customer, Customer contains Address
 
 ## Data Flow Summary
 
 ```
 User Input → Products Created → Added to Order → 
 Cost Calculated ← Address Checked ← Customer Retrieved ← 
-Labels Generated ← Polymorphic Methods Called ← Products Iterated
+Labels Generated ← Products Iterated
 ```
 
 This design provides a clean, maintainable structure that can easily be extended with new product types or additional functionality.

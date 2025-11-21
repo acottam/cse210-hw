@@ -15,8 +15,8 @@ class Program
 
         // Create Products
         Product laptop = new Product("Laptop", 999.99, 1001);
-        OutdoorProduct tent = new OutdoorProduct("Camping Tent", 149.99, 2001);
-        SwimmingProduct goggles = new SwimmingProduct("Swimming Goggles", 29.99, 3001);
+        Product tent = new Product("Camping Tent", 149.99, 2001);
+        Product goggles = new Product("Swimming Goggles", 29.99, 3001);
 
         // Create Order #1 (USA)
         Order order1 = new Order(customer1);
