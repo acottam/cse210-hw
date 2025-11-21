@@ -14,11 +14,14 @@ public class Product
         _productId = productId;
     }
 
+    // Get Price Method - Returns price
     public double GetPrice()
     {
+        // Returns price
         return _price;
     }
 
+    // GetPackingLabel - Returns formatted packing label
     public virtual string GetPackingLabel()
     {
         return $"{_name} - {_productId}";
