@@ -72,7 +72,7 @@ public class Activity
             // Erase spinner character
             Console.Write("\b \b");
             
-            // Update index
+            // Update index (cycle through spinner characters and restart if needed)
             i = (i + 1) % spinnerChars.Count;
         }
     }
