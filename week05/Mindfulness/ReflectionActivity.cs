@@ -99,6 +99,7 @@ public class ReflectionActivity : Activity
         // Reset used questions if all have been shown
         if (_usedQuestions.Count >= _questions.Count)
         {
+            // Clear used questions
             _usedQuestions.Clear();
         }
 
@@ -106,6 +107,7 @@ public class ReflectionActivity : Activity
         List<string> availableQuestions = new List<string>();
         foreach (string question in _questions)
         {
+            // If not used, add to available
             if (!_usedQuestions.Contains(question))
             {
                 availableQuestions.Add(question);
@@ -114,11 +116,14 @@ public class ReflectionActivity : Activity
 
         // Select random from available
         Random random = new Random();
-        string selectedQuestion = availableQuestions[random.Next(availableQuestions.Count)];
         
+        // Pick one
+        string selectedQuestion = availableQuestions[random.Next(availableQuestions.Count)];
+
         // Mark as used
         _usedQuestions.Add(selectedQuestion);
         
+        // Return the selected question
         return selectedQuestion;
     }
 }
