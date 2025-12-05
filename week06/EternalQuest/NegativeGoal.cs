@@ -12,6 +12,7 @@ public class NegativeGoal : Goal
     // Constructor with statistics (for loading from file)
     public NegativeGoal(string name, string description, int points, int totalTimesCompleted, int totalPointsEarned, List<string> completionDates) : base(name, description, points)
     {
+        // Set statistics
         SetStatistics(totalTimesCompleted, totalPointsEarned, completionDates);
     }
 
@@ -28,8 +29,10 @@ public class NegativeGoal : Goal
     // GetStringRepresentation method: returns string representation of the goal
     public override string GetStringRepresentation()
     {
-        // Return formatted string with statistics
+        // Get completion dates as string 
         string dates = string.Join("|", _completionDates);
+
+        // Return string representation
         return $"NegativeGoal:{_name},{_description},{_points},{_totalTimesCompleted},{_totalPointsEarned},{dates}";
     }
 

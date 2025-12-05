@@ -82,6 +82,7 @@ public abstract class Goal
     // SetStatistics method: sets statistics when loading from file
     protected void SetStatistics(int totalTimesCompleted, int totalPointsEarned, List<string> completionDates)
     {
+        // Set statistics
         _totalTimesCompleted = totalTimesCompleted;
         _totalPointsEarned = totalPointsEarned;
         _completionDates = completionDates;

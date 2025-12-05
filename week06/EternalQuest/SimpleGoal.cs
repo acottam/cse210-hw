@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 // SimpleGoal class: inherits from Goal class
 public class SimpleGoal : Goal
 {
@@ -42,8 +44,10 @@ public class SimpleGoal : Goal
     // Override GetStringRepresentation method: returns string representation of the goal
     public override string GetStringRepresentation()
     {
-        // Return formatted string with statistics
+        // Get completion dates as string
         string dates = string.Join("|", _completionDates);
+        
+        // Return string representation
         return $"SimpleGoal:{_name},{_description},{_points},{_isComplete},{_totalTimesCompleted},{_totalPointsEarned},{dates}";
     }
 
