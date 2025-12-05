@@ -11,11 +11,19 @@ public class SimpleGoal : Goal
         _isComplete = false;
     }
 
-    // Overloaded Constructor
+    // Overloaded Constructor (for loading from file)
     public SimpleGoal(string name, string description, int points, bool isComplete) : base(name, description, points)
     {
         // Initialize attributes
         _isComplete = isComplete;
+    }
+
+    // Constructor with statistics (for loading from file)
+    public SimpleGoal(string name, string description, int points, bool isComplete, int totalTimesCompleted, int totalPointsEarned, List<string> completionDates) : base(name, description, points)
+    {
+        // Initialize attributes
+        _isComplete = isComplete;
+        SetStatistics(totalTimesCompleted, totalPointsEarned, completionDates);
     }
 
     // Override Methods
@@ -34,8 +42,9 @@ public class SimpleGoal : Goal
     // Override GetStringRepresentation method: returns string representation of the goal
     public override string GetStringRepresentation()
     {
-        // Return formatted string
-        return $"SimpleGoal:{_name},{_description},{_points},{_isComplete}";
+        // Return formatted string with statistics
+        string dates = string.Join("|", _completionDates);
+        return $"SimpleGoal:{_name},{_description},{_points},{_isComplete},{_totalTimesCompleted},{_totalPointsEarned},{dates}";
     }
 
     // Override GetDetailsString method: returns detailed string of the goal

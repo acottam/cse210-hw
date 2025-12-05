@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 // ChecklistGoal class: Inherits from Goal, represents a checklist goal
 public class ChecklistGoal : Goal
 {
@@ -15,13 +17,23 @@ public class ChecklistGoal : Goal
         _timesCompleted = 0;
     }
 
-    // Overloaded Constructor
+    // Overloaded Constructor (for loading from file)
     public ChecklistGoal(string name, string description, int points, int target, int bonus, int timesCompleted) : base(name, description, points)
     {
         // Initialize attributes
         _target = target;
         _bonus = bonus;
         _timesCompleted = timesCompleted;
+    }
+
+    // Constructor with statistics (for loading from file)
+    public ChecklistGoal(string name, string description, int points, int target, int bonus, int timesCompleted, int totalTimesCompleted, int totalPointsEarned, List<string> completionDates) : base(name, description, points)
+    {
+        // Initialize attributes
+        _target = target;
+        _bonus = bonus;
+        _timesCompleted = timesCompleted;
+        SetStatistics(totalTimesCompleted, totalPointsEarned, completionDates);
     }
 
     // Override RecordEvent method: increments times completed and returns points (with bonus if target reached)
@@ -47,8 +59,9 @@ public class ChecklistGoal : Goal
     // Override GetStringRepresentation method: returns string representation of the goal
     public override string GetStringRepresentation()
     {
-        // Return formatted string
-        return $"ChecklistGoal:{_name},{_description},{_points},{_target},{_bonus},{_timesCompleted}";
+        // Return formatted string with statistics
+        string dates = string.Join("|", _completionDates);
+        return $"ChecklistGoal:{_name},{_description},{_points},{_target},{_bonus},{_timesCompleted},{_totalTimesCompleted},{_totalPointsEarned},{dates}";
     }
 
     // Override GetDetailsString method: returns detailed string of the goal
