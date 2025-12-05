@@ -1,0 +1,8 @@
+1712
+SimpleGoal|Get Salesforce Platform Developer Certificate|Study and take test for SF developer.|500|True|0|0|
+EternalGoal|Read scriptures each day|Read 10 min daily|50|2|100|2025-12-04 21:20:17:2025-12-04 21:23:17
+ChecklistGoal|Work out at gym|Workout for 45 min|50|10|500|10|0|0|
+EternalGoal|Complete a game of Wordle|(1 game per day)|5|0|0|
+NegativeGoal|Bite my finger nails|Bite nails|10|5|-50|2025-12-04 20:2025-12-04 20:2025-12-04 20:2025-12-04 20:2025-12-04 21:20:25
+ChecklistGoal|10 push ups|push ups|10|4|500|1|1|10|2025-12-04 21:28:01
+NegativeGoal|Complain about something|Complaining|4|2|-8|2025-12-04 21:17:48:2025-12-04 21:20:08

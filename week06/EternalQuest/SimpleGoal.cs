@@ -44,11 +44,11 @@ public class SimpleGoal : Goal
     // Override GetStringRepresentation method: returns string representation of the goal
     public override string GetStringRepresentation()
     {
-        // Get completion dates as string
-        string dates = string.Join("|", _completionDates);
+        // Get completion dates as string (using colon delimiter)
+        string dates = string.Join(":", _completionDates);
         
-        // Return string representation
-        return $"SimpleGoal:{_name},{_description},{_points},{_isComplete},{_totalTimesCompleted},{_totalPointsEarned},{dates}";
+        // Return string representation (using pipe delimiter)
+        return $"SimpleGoal|{_name}|{_description}|{_points}|{_isComplete}|{_totalTimesCompleted}|{_totalPointsEarned}|{dates}";
     }
 
     // Override GetDetailsString method: returns detailed string of the goal

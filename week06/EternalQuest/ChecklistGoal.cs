@@ -59,9 +59,9 @@ public class ChecklistGoal : Goal
     // Override GetStringRepresentation method: returns string representation of the goal
     public override string GetStringRepresentation()
     {
-        // Return formatted string with statistics
-        string dates = string.Join("|", _completionDates);
-        return $"ChecklistGoal:{_name},{_description},{_points},{_target},{_bonus},{_timesCompleted},{_totalTimesCompleted},{_totalPointsEarned},{dates}";
+        // Return formatted string with statistics (using pipe delimiter)
+        string dates = string.Join(":", _completionDates);
+        return $"ChecklistGoal|{_name}|{_description}|{_points}|{_target}|{_bonus}|{_timesCompleted}|{_totalTimesCompleted}|{_totalPointsEarned}|{dates}";
     }
 
     // Override GetDetailsString method: returns detailed string of the goal

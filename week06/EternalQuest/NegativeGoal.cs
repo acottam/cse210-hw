@@ -29,11 +29,11 @@ public class NegativeGoal : Goal
     // GetStringRepresentation method: returns string representation of the goal
     public override string GetStringRepresentation()
     {
-        // Get completion dates as string 
-        string dates = string.Join("|", _completionDates);
+        // Get completion dates as string (using colon delimiter)
+        string dates = string.Join(":", _completionDates);
 
-        // Return string representation
-        return $"NegativeGoal:{_name},{_description},{_points},{_totalTimesCompleted},{_totalPointsEarned},{dates}";
+        // Return string representation (using pipe delimiter)
+        return $"NegativeGoal|{_name}|{_description}|{_points}|{_totalTimesCompleted}|{_totalPointsEarned}|{dates}";
     }
 
     // GetDetailsString method: returns detailed string of the goal

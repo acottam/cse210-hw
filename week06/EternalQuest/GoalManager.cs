@@ -9,6 +9,7 @@ public class GoalManager
     private List<Goal> _goals;
     private int _score;
     private string _currentFile;
+    private string _projectRoot;
 
     // Constructor
     public GoalManager()
@@ -16,7 +17,16 @@ public class GoalManager
         // Initialize attributes
         _goals = new List<Goal>();
         _score = 0;
-        _currentFile = "goals.txt";
+        
+        // Get project root directory (where Program.cs is located)
+        _projectRoot = Directory.GetCurrentDirectory();
+        while (!File.Exists(Path.Combine(_projectRoot, "Program.cs")) && Directory.GetParent(_projectRoot) != null)
+        {
+            _projectRoot = Directory.GetParent(_projectRoot).FullName;
+        }
+        
+        // Set default file path in project root
+        _currentFile = Path.Combine(_projectRoot, "goals.txt");
     }
 
     // Start Method: Main loop for user interaction
@@ -64,7 +74,6 @@ public class GoalManager
                 // 4. Load Goals
                 case "4":
                     LoadGoals();
-                    AutoSave();
                     break;
                 // 5. Record Event
                 case "5":
@@ -77,6 +86,7 @@ public class GoalManager
                     break;
                 // 7. Quit
                 case "7":
+                    AutoSave();
                     return;
             }
         }
@@ -85,6 +95,9 @@ public class GoalManager
     // CreateGoal Method: Handles creation of new goals
     private void CreateGoal()
     {
+        // Clear screen
+        Console.Clear();
+
         // Display goal types
         Console.WriteLine("\nThe types of Goals are:");
 
@@ -156,13 +169,28 @@ public class GoalManager
             // Display goal details
             Console.WriteLine($"{i + 1}. {_goals[i].GetDetailsString()}");
         }
+
+        // Pause to let user read
+        Console.WriteLine("\nPress Enter to continue...");
+        Console.ReadLine();
+        Console.Clear();
     }
 
     // RecordEvent Method: Records an event for a selected goal
     private void RecordEvent()
     {
-        // List current goals
-        ListGoals();
+        // Clear screen
+        Console.Clear();
+
+        // Display current goals
+        Console.WriteLine("\nThe goals are:");
+
+        // List each goal with details
+        for (int i = 0; i < _goals.Count; i++)
+        {
+            // Display goal details
+            Console.WriteLine($"{i + 1}. {_goals[i].GetDetailsString()}");
+        }
 
         // Get goal accomplished from user
         Console.Write("Which goal did you accomplish? ");
@@ -177,6 +205,9 @@ public class GoalManager
             // Update total score
             _score += pointsEarned;
 
+            // Clear screen before showing result
+            Console.Clear();
+
             // Congratulations or negative message based on points
             if (pointsEarned < 0)
             {
@@ -187,12 +218,20 @@ public class GoalManager
                 Console.WriteLine($"Congratulations! You have earned {pointsEarned} points!");
             }
             Console.WriteLine($"You now have {_score} points.");
+            
+            // Pause to let user read
+            Console.WriteLine("\nPress Enter to continue...");
+            Console.ReadLine();
+            Console.Clear();
         }
     }
 
     // SaveGoals Method: Saves current goals and score to a file
     private void SaveGoals()
     {
+        // Clear screen
+        Console.Clear();
+
         // Get filename from user (or use default)
         Console.Write("What is the filename for the goal file? (Press Enter for default: goals.txt) ");
         string filename = Console.ReadLine();
@@ -200,7 +239,12 @@ public class GoalManager
         // Use default if empty
         if (string.IsNullOrWhiteSpace(filename))
         {
-            filename = "goals.txt";
+            filename = Path.Combine(_projectRoot, "goals.txt");
+        }
+        else if (!Path.IsPathRooted(filename))
+        {
+            // If relative path, use project root
+            filename = Path.Combine(_projectRoot, filename);
         }
         
         // Update current file
@@ -224,6 +268,9 @@ public class GoalManager
     // ViewStatistics Method: Displays statistics for all goals
     private void ViewStatistics()
     {
+        // Clear screen
+        Console.Clear();
+
         // Display statistics header
         Console.WriteLine("\nGoal Statistics:");
 
@@ -232,6 +279,11 @@ public class GoalManager
         {
             Console.WriteLine(goal.GetStatistics());
         }
+
+        // Pause to let user read
+        Console.WriteLine("\nPress Enter to continue...");
+        Console.ReadLine();
+        Console.Clear();
     }
 
     // AutoSave Method: Automatically saves goals to current file
@@ -266,6 +318,9 @@ public class GoalManager
     // LoadGoals Method: Loads goals and score from a file
     private void LoadGoals()
     {
+        // Clear screen
+        Console.Clear();
+
         // Get filename from user (or use default)
         Console.Write("What is the filename for the goal file? (Press Enter for default: goals.txt) ");
         string filename = Console.ReadLine();
@@ -273,17 +328,25 @@ public class GoalManager
         // Use default if empty
         if (string.IsNullOrWhiteSpace(filename))
         {
-            filename = "goals.txt";
+            filename = Path.Combine(_projectRoot, "goals.txt");
+        }
+        else if (!Path.IsPathRooted(filename))
+        {
+            // If relative path, use project root
+            filename = Path.Combine(_projectRoot, filename);
         }
         
         // Check if file exists
         if (File.Exists(filename))
         {
-            // Update current file
-            _currentFile = filename;
-            
             // Load from file
             LoadFromFile(filename);
+            
+            // Set current file to default goals.txt
+            _currentFile = Path.Combine(_projectRoot, "goals.txt");
+            
+            // Auto-save to goals.txt
+            AutoSave();
         }
         else
         {
@@ -306,58 +369,55 @@ public class GoalManager
         // Read each goal from file
         for (int i = 1; i < lines.Length; i++)
         {
-            // Split line into type and data
-            string[] parts = lines[i].Split(':');
+            // Split line into type and data (using pipe delimiter)
+            string[] parts = lines[i].Split('|');
 
-            // Get goal
+            // Get goal type
             string type = parts[0];
-            
-            // Get goal data
-            string[] data = parts[1].Split(',');
 
             // SimpleGoal
             if (type == "SimpleGoal")
             {
                 // Parse statistics
-                List<string> dates = data.Length > 6 && !string.IsNullOrEmpty(data[6]) ? new List<string>(data[6].Split('|')) : new List<string>();
-                int totalTimes = data.Length > 4 ? int.Parse(data[4]) : 0;
-                int totalPoints = data.Length > 5 ? int.Parse(data[5]) : 0;
+                List<string> dates = parts.Length > 7 && !string.IsNullOrEmpty(parts[7]) ? new List<string>(parts[7].Split(':')) : new List<string>();
+                int totalTimes = parts.Length > 5 ? int.Parse(parts[5]) : 0;
+                int totalPoints = parts.Length > 6 ? int.Parse(parts[6]) : 0;
                 
                 // Add new SimpleGoal to goals list
-                _goals.Add(new SimpleGoal(data[0], data[1], int.Parse(data[2]), bool.Parse(data[3]), totalTimes, totalPoints, dates));
+                _goals.Add(new SimpleGoal(parts[1], parts[2], int.Parse(parts[3]), bool.Parse(parts[4]), totalTimes, totalPoints, dates));
             }
             // EternalGoal
             else if (type == "EternalGoal")
             {
                 // Parse statistics
-                List<string> dates = data.Length > 5 && !string.IsNullOrEmpty(data[5]) ? new List<string>(data[5].Split('|')) : new List<string>();
-                int totalTimes = data.Length > 3 ? int.Parse(data[3]) : 0;
-                int totalPoints = data.Length > 4 ? int.Parse(data[4]) : 0;
+                List<string> dates = parts.Length > 6 && !string.IsNullOrEmpty(parts[6]) ? new List<string>(parts[6].Split(':')) : new List<string>();
+                int totalTimes = parts.Length > 4 ? int.Parse(parts[4]) : 0;
+                int totalPoints = parts.Length > 5 ? int.Parse(parts[5]) : 0;
                 
                 // Add new EternalGoal to goals list
-                _goals.Add(new EternalGoal(data[0], data[1], int.Parse(data[2]), totalTimes, totalPoints, dates));
+                _goals.Add(new EternalGoal(parts[1], parts[2], int.Parse(parts[3]), totalTimes, totalPoints, dates));
             }
             // ChecklistGoal
             else if (type == "ChecklistGoal")
             {
                 // Parse statistics
-                List<string> dates = data.Length > 8 && !string.IsNullOrEmpty(data[8]) ? new List<string>(data[8].Split('|')) : new List<string>();
-                int totalTimes = data.Length > 6 ? int.Parse(data[6]) : 0;
-                int totalPoints = data.Length > 7 ? int.Parse(data[7]) : 0;
+                List<string> dates = parts.Length > 9 && !string.IsNullOrEmpty(parts[9]) ? new List<string>(parts[9].Split(':')) : new List<string>();
+                int totalTimes = parts.Length > 7 ? int.Parse(parts[7]) : 0;
+                int totalPoints = parts.Length > 8 ? int.Parse(parts[8]) : 0;
                 
                 // Add new ChecklistGoal to goals list
-                _goals.Add(new ChecklistGoal(data[0], data[1], int.Parse(data[2]), int.Parse(data[3]), int.Parse(data[4]), int.Parse(data[5]), totalTimes, totalPoints, dates));
+                _goals.Add(new ChecklistGoal(parts[1], parts[2], int.Parse(parts[3]), int.Parse(parts[4]), int.Parse(parts[5]), int.Parse(parts[6]), totalTimes, totalPoints, dates));
             }
             // NegativeGoal
             else if (type == "NegativeGoal")
             {
                 // Parse statistics
-                List<string> dates = data.Length > 5 && !string.IsNullOrEmpty(data[5]) ? new List<string>(data[5].Split('|')) : new List<string>();
-                int totalTimes = data.Length > 3 ? int.Parse(data[3]) : 0;
-                int totalPoints = data.Length > 4 ? int.Parse(data[4]) : 0;
+                List<string> dates = parts.Length > 6 && !string.IsNullOrEmpty(parts[6]) ? new List<string>(parts[6].Split(':')) : new List<string>();
+                int totalTimes = parts.Length > 4 ? int.Parse(parts[4]) : 0;
+                int totalPoints = parts.Length > 5 ? int.Parse(parts[5]) : 0;
                 
                 // Add new NegativeGoal to goals list
-                _goals.Add(new NegativeGoal(data[0], data[1], int.Parse(data[2]), totalTimes, totalPoints, dates));
+                _goals.Add(new NegativeGoal(parts[1], parts[2], int.Parse(parts[3]), totalTimes, totalPoints, dates));
             }
         }
     }
