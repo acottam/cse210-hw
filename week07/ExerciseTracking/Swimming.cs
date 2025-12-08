@@ -7,7 +7,7 @@ public class Swimming : Activity
     private int _laps;
 
     // Constructor
-    public Swimming(string date, int minutes, int laps) : base(date, minutes)
+    public Swimming(string date, int minutes, int laps) : base(date, minutes, "Swimming")
     {
         // Initialize attributes
         _laps = laps;
@@ -32,12 +32,5 @@ public class Swimming : Activity
     {
         // Pace in min per mile
         return GetMinutes() / GetDistance();
-    }
-
-    // Override: GetSummary - provide a summary of the swimming activity
-    public override string GetSummary()
-    {
-        // Return formatted summary string
-        return $"{GetDate()} Swimming ({GetMinutes()} min)- Distance {GetDistance():F1} miles, Speed {GetSpeed():F1} mph, Pace: {GetPace():F1} min per mile";
     }
 }

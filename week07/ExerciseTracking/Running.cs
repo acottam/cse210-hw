@@ -7,7 +7,7 @@ public class Running : Activity
     private double _distance;
 
     // Constructor
-    public Running(string date, int minutes, double distance) : base(date, minutes)
+    public Running(string date, int minutes, double distance) : base(date, minutes, "Running")
     {
         // Initialize attributes
         _distance = distance;
@@ -32,12 +32,5 @@ public class Running : Activity
     {
         // Pace in min per mile
         return GetMinutes() / _distance;
-    }
-
-    // Override: GetSummary - provide a summary of the running activity
-    public override string GetSummary()
-    {
-        // Return formatted summary string
-        return $"{GetDate()} Running ({GetMinutes()} min)- Distance {GetDistance():F1} miles, Speed {GetSpeed():F1} mph, Pace: {GetPace():F1} min per mile";
     }
 }

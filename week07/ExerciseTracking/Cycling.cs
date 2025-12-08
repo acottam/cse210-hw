@@ -7,7 +7,7 @@ public class Cycling : Activity
     private double _speed;
 
     // Constructor
-    public Cycling(string date, int minutes, double speed) : base(date, minutes)
+    public Cycling(string date, int minutes, double speed) : base(date, minutes, "Stationary Bicycles")
     {
         // Initialize attributes
         _speed = speed;
@@ -32,12 +32,5 @@ public class Cycling : Activity
     {
         // Pace in min per mile
         return 60 / _speed;
-    }
-
-    // Override: GetSummary - provide a summary of the cycling activity
-    public override string GetSummary()
-    {
-        // Return formatted summary string
-        return $"{GetDate()} Stationary Bicycles ({GetMinutes()} min)- Distance {GetDistance():F1} miles, Speed {GetSpeed():F1} mph, Pace: {GetPace():F1} min per mile";
     }
 }

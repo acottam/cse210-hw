@@ -1,43 +1,36 @@
 using System;
 
 // Base Activity class - common properties and methods
-public class Activity
+public abstract class Activity
 {
     // Member attributes
     private string _date;
     private int _minutes;
+    private string _activityType;
 
     // Constructor
-    public Activity(string date, int minutes)
+    public Activity(string date, int minutes, string activityType)
     {
         // Initialize attributes
         _date = date;
         _minutes = minutes;
+        _activityType = activityType;
     }
 
-    // Virtual: GetDistance - to be overridden in derived classes
-    public virtual double GetDistance()
-    {
-        return 0;
-    }
+    // Abstract: GetDistance - to be overridden in derived classes
+    public abstract double GetDistance();
 
-    // Virtual: GetSpeed - to be overridden in derived classes
-    public virtual double GetSpeed()
-    {
-        return 0;
-    }
+    // Abstract: GetSpeed - to be overridden in derived classes
+    public abstract double GetSpeed();
 
-    // Virtual: GetPace - to be overridden in derived classes
-    public virtual double GetPace()
-    {
-        return 0;
-    }
+    // Abstract: GetPace - to be overridden in derived classes
+    public abstract double GetPace();
 
-    // Virtual: GetSummary - to be overridden in derived classes
-    public virtual string GetSummary()
+    // GetSummary - calls virtual methods to produce summary
+    public string GetSummary()
     {
-        // Return a generic summary
-        return $"{_date} ({_minutes} min)- Distance {GetDistance():F1} miles, Speed {GetSpeed():F1} mph, Pace: {GetPace():F1} min per mile";
+        // Return a summary using polymorphic method calls
+        return $"{_date} {_activityType} ({_minutes} min)- Distance {GetDistance():F1} miles, Speed {GetSpeed():F1} mph, Pace: {GetPace():F1} min per mile";
     }
 
     // Protected: GetDate - to access date in derived classes
